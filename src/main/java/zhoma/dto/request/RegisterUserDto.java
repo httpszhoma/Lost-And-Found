@@ -11,5 +11,7 @@ public record RegisterUserDto (
  String lastname,
  String password
 
-){}
+){
+
+}
 

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import zhoma.dto.request.RegisterUserDto;
 import zhoma.models.User;
 import zhoma.security.AuthenticationService;
+import zhoma.security.JwtService;
+
 import java.util.HashMap;
 import java.util.Map;
 
