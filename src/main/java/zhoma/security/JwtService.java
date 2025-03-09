@@ -124,4 +124,9 @@ public class JwtService {
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(refreshToken);
     }
 
+
+
+    public long getExpirationTime() {
+        return jwtExpiration;
+    }
 }

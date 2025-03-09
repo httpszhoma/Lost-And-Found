@@ -7,7 +7,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import zhoma.dto.request.LoginUserDto;
+import zhoma.dto.request.RefreshTokenDto;
 import zhoma.dto.request.RegisterUserDto;
+import zhoma.dto.request.VerifyUserDto;
+import zhoma.dto.response.LoginResponseDto;
+import zhoma.exceptions.TokenInvalidException;
 import zhoma.models.User;
 import zhoma.security.AuthenticationService;
 import zhoma.security.JwtService;
@@ -45,11 +50,11 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "401", description = "Invalid credentials")
     })
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto){
+    public ResponseEntity<LoginResponseDto> authenticate(@RequestBody LoginUserDto loginUserDto){
         User authenticatedUser = authenticationService.authenticate(loginUserDto);
         String jwtToken = jwtService.generateToken(authenticatedUser);
         String refreshToken = jwtService.generateRefreshToken(authenticatedUser);
-        LoginResponse loginResponse = new LoginResponse(jwtToken, refreshToken, jwtService.getExpirationTime());
+        LoginResponseDto loginResponse = new LoginResponseDto(jwtToken, refreshToken, jwtService.getExpirationTime());
         return ResponseEntity.ok(loginResponse);
     }
 
@@ -61,8 +66,8 @@ public class AuthenticationController {
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenDto refreshToken) {
         try {
-            System.out.println("refreshToken = "+ refreshToken.getRefreshToken()+ "\n\n\n");
-            String newAccessToken = jwtService.refreshAccessToken(refreshToken.getRefreshToken());
+            System.out.println("refreshToken = "+ refreshToken.refreshToken()+ "\n\n\n");
+            String newAccessToken = jwtService.refreshAccessToken(refreshToken.refreshToken());
             Map<String, String> response = new HashMap<>();
             response.put("accessToken", newAccessToken);
             response.put("expiresIn", String.valueOf(jwtService.getExpirationTime()));
