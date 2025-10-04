@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import zhoma.dto.request.LoginUserDto;
 import zhoma.dto.request.RegisterUserDto;
 import zhoma.dto.request.VerifyUserDto;
+import zhoma.models.Role;
 import zhoma.services.EmailService;
 import zhoma.exceptions.*;
 import zhoma.models.User;
@@ -39,6 +40,7 @@ public class AuthenticationService {
         zhoma.models.User user = new zhoma.models.User(input.firstname(), input.lastname(), input.username(), input.email(), passwordEncoder.encode(input.password()));
         user.setVerificationCode(generateVerificationCode());
         user.setVerificationCodeExpiresAt(LocalDateTime.now().plusMinutes(15));
+        user.setRole(Role.ROLE_USER);
         user.setEnabled(false);
         sendVerificationEmail(user);
         return userRepository.save(user);
