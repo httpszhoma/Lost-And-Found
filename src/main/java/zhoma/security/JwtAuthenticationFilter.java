@@ -33,6 +33,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String[] PUBLIC_URIS = {
             "/swagger-ui/**", "/v3/api-docs/**", "/auth/**"
+
+       //TODO In here you can and any url for access to public
     };
 
 

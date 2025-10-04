@@ -27,7 +27,7 @@ public class UserService  implements UserDetailsService {
         userRepository.deleteById(userId);
     }
 
-    public List<User> allUsers(){
+    public List<User> getAllUsers(){
         return new ArrayList<>(userRepository.findAll());
 
     }

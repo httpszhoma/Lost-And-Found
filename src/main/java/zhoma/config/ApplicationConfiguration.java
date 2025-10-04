@@ -2,6 +2,7 @@ package zhoma.config;
 
 
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.Mapping;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,7 +12,11 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import zhoma.dto.UserDto;
+import zhoma.models.User;
 import zhoma.repository.UserRepository;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 @Configuration
 @RequiredArgsConstructor
