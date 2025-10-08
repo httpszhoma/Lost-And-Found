@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.IOException;
@@ -38,6 +39,15 @@ public class S3Service {
 
         return "https://" + bucketName + ".s3.amazonaws.com/" + key;
     }
+            public void delete(String fileUrl) {
+        String key = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
 
+        DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key)
+                .build();
+
+        s3Client.deleteObject(deleteObjectRequest);
+    }
 
 }

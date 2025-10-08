@@ -48,9 +48,19 @@ public class ItemService {
         return savedItem;
     }
 
+    @Transactional
     public void delete(Long id) {
-        itemRepository.deleteById(id);
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Item not found with id: " + id));
+
+        List<ItemPhoto> itemPhotos = item.getPhotos();
+        for (ItemPhoto itemPhoto : itemPhotos) {
+            s3Service.delete(itemPhoto.getPhotoUrl());
+            itemPhotoRepository.delete(itemPhoto);
+        }
+        itemRepository.delete(item);
     }
+
 
     public Item update(Long id, Item updated) {
         Item item = itemRepository.findById(id)
